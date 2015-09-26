@@ -1,0 +1,20 @@
+{
+  "name": "oddbaby",
+  "version": "3.1.2",
+  "description": "A starter theme for Drupal theming.",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-css-globbing": "^0.1.8",
+    "gulp-jshint": "^1.11.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-scss-lint": "^0.3.4",
+    "gulp-svg2png": "^0.3.0",
+    "jshint-stylish": "^2.0.1",
+    "gulp-uglify": "^1.4.1",
+    "gulp-uglifycss": "^1.0.4",
+    "gulp-react": "^3.0.1",
+    "gulp-jquery": "^1.0.2",
+    "minimist": "^1.2.0"
+  }
+}
