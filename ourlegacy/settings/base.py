@@ -57,7 +57,9 @@ ROOT_URLCONF = 'ourlegacy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [
+            os.path.join(BASE_DIR, '../theme/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,7 +107,7 @@ STATICFILES_DIRS = (
     ('css', os.path.join(BASE_DIR, '../theme/css')),
     ('js', os.path.join(BASE_DIR, '../theme/js')),
     ('graphics', os.path.join(BASE_DIR, '../theme/graphics')),
-    ('assets', os.path.join(BASE_DIR, '../theme/bower_components')),
+    ('assets', os.path.join(BASE_DIR, '../theme/assets')),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
@@ -131,26 +133,20 @@ PIPELINE_COMPILERS = (
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.NoopCompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
-if DEBUG:
-    PIPELINE_BROWSERIFY_ARGUMENTS = '-t babelify'
-
 PIPELINE_CSS = {
-    'mysite_css': {
+    'site_css': {
         'source_filenames': (
-            'css/style.css',
+            'css/main.css',
         ),
-        'output_filename': 'css/mysite_css.css',
+        'output_filename': 'css/main.css',
     },
 }
 
 PIPELINE_JS = {
-    'mysite_js': {
+    'site_js': {
         'source_filenames': (
-            'js/bower_components/jquery/dist/jquery.min.js',
-            'js/bower_components/react/JSXTransformer.js',
-            'js/bower_components/react/react-with-addons.js',
-            'js/app.browserify.js',
+            'js/dist/bundle.js',
         ),
-        'output_filename': 'js/mysite_js.js',
+        'output_filename': 'js/site_js.js',
     }
 }
