@@ -3,6 +3,8 @@
   "version": "3.1.2",
   "description": "A starter theme for Drupal theming.",
   "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-css-globbing": "^0.1.8",
@@ -10,11 +12,12 @@
     "gulp-sass": "^2.0.4",
     "gulp-scss-lint": "^0.3.4",
     "gulp-svg2png": "^0.3.0",
-    "jshint-stylish": "^2.0.1",
     "gulp-uglify": "^1.4.1",
     "gulp-uglifycss": "^1.0.4",
-    "gulp-react": "^3.0.1",
-    "gulp-jquery": "^1.0.2",
-    "minimist": "^1.2.0"
+    "jquery": "^2.1.4",
+    "jshint-stylish": "^2.0.1",
+    "minimist": "^1.2.0",
+    "react": "^0.13.3",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

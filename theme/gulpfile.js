@@ -5,18 +5,21 @@ var stylish = require('jshint-stylish')
 var scsslint = require('gulp-scss-lint')
 var svg2png = require('gulp-svg2png')
 var babel = require('gulp-babel')
+var babelify = require('babelify')
+var source = require('vinyl-source-stream');
 var cssGlobbing = require('gulp-css-globbing')
 var uglify = require('gulp-uglify')
 var uglifycss = require('gulp-uglifycss')
 var react = require('gulp-react')
+var browserify = require('browserify')
 var jquery = require('gulp-jquery');
 var argv = require('minimist')(process.argv.slice(2))
 
 // babel
 gulp.task('babel', function () {
-  return gulp.src('./js/src/main.js')
+  return gulp.src('./js/src/*.js')
     .pipe(babel())
-    .pipe(gulp.dest('./js'))
+    .pipe(gulp.dest('./js/dist'))
 })
 
 // svg2png
@@ -41,7 +44,7 @@ gulp.task('css', function () {
     .pipe(uglifycss({
       max_line_len: 80
     }))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./css/dist/'));
 });
 
 gulp.task('jquery', function () {
@@ -50,29 +53,41 @@ gulp.task('jquery', function () {
         flags: ['-deprecated', '-event/alias', '-ajax/script', '-ajax/jsonp', '-exports/global']
     })
     .pipe(gulp.dest('./assets/'));
-    // creates ./public/vendor/jquery.custom.js
 });
 
-// Lint sass
-//gulp.task('scss-lint', function () {
-//  return gulp.src(['scss/**/*.scss', '!scss/print.scss', '!scss/normalize.scss'])
-//    .pipe(scsslint({ 'config': '.scss-lint.yml'}))
-//})
+gulp.task('scss-lint', function () {
+ return gulp.src(['scss/**/*.scss', '!scss/print.scss', '!scss/normalize.scss'])
+   .pipe(scsslint({ 'config': '.scss-lint.yml'}))
+})
 
 // Jshint
 gulp.task('jshint', function () {
-  return gulp.src('./js/**/*.js')
+  return gulp.src('./js/dist/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
 })
+
+gulp.task('build', function () {
+  browserify({
+    entries: './js/src/index.jsx',
+    extensions: ['.jsx'],
+    debug: true
+  })
+  .transform(babelify)
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest('./js/dist'));
+});
 
 // Watch .scss and .js
 gulp.task('watch', function () {
   gulp.watch('scss/**/*.scss', ['sass', 'css'])
 
   if (argv.babel) {
-    gulp.watch('./js/src/**/*.js', ['jshint', 'babel'])
-  } else {
+    gulp.watch('./js/src/**/*.js', ['babel'])
+  } else if (argv.react) {
+    gulp.watch('./js/src/**/*.jsx', ['build'])
+  }else {
     gulp.watch('./js/**/*.js', ['jshint'])
   }
 })
